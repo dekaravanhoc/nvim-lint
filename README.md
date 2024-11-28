@@ -1,6 +1,6 @@
 # nvim-lint
 
-An asynchronous linter plugin for Neovim (>= 0.6.0) complementary to the
+An asynchronous linter plugin for Neovim (>= 0.9.5) complementary to the
 built-in Language Server Protocol support.
 
 ## Motivation & Goals
@@ -18,7 +18,7 @@ results.
 
 ## Installation
 
-- Requires Neovim >= 0.6.0
+- Requires Neovim >= 0.9.5
 - `nvim-lint` is a regular plugin and can be installed via the `:h packages`
   mechanism or via a plugin manager.
 
@@ -50,7 +50,7 @@ Then setup a autocmd to trigger linting. For example:
 au BufWritePost * lua require('lint').try_lint()
 ```
 
-or with Lua autocmds (requires 0.7):
+or with Lua autocmds:
 
 ```lua
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
@@ -90,7 +90,6 @@ Other dedicated linters that are built-in are:
 | [alex][alex]                           | `alex`                 |
 | [ameba][ameba]                         | `ameba`                |
 | [ansible-lint][ansible-lint]           | `ansible_lint`         |
-| [awk][awk]                             | `awk`                  |
 | [bandit][bandit]                       | `bandit`               |
 | [bash][bash]                           | `bash`                 |
 | [bean-check][bean-check]               | `bean_check`           |
@@ -132,6 +131,7 @@ Other dedicated linters that are built-in are:
 | [fish][fish]                           | `fish`                 |
 | [Flake8][13]                           | `flake8`               |
 | [flawfinder][35]                       | `flawfinder`           |
+| [gawk][gawk]                           | `gawk`                 |
 | [gdlint (gdtoolkit)][gdlint]           | `gdlint`               |
 | [GHDL][ghdl]                           | `ghdl`                 |
 | [gitlint][gitlint]                     | `gitlint`              |
@@ -200,6 +200,7 @@ Other dedicated linters that are built-in are:
 | [snyk][snyk]                           | `snyk_iac`             |
 | [Solhint][solhint]                     | `solhint`              |
 | [Spectral][spectral]                   | `spectral`             |
+| [sphinx-lint][sphinx-lint]             | `sphinx-lint`          |
 | [sqlfluff][sqlfluff]                   | `sqlfluff`             |
 | [standardjs][standardjs]               | `standardjs`           |
 | [StandardRB][27]                       | `standardrb`           |
@@ -551,6 +552,7 @@ busted tests/
 [snakemake]: https://snakemake.github.io
 [snyk]: https://github.com/snyk/cli
 [spectral]: https://github.com/stoplightio/spectral
+[sphinx-lint]: https://github.com/sphinx-contrib/sphinx-lint
 [gitlint]: https://github.com/jorisroovers/gitlint
 [pflake8]: https://github.com/csachs/pyproject-flake8
 [fish]: https://github.com/fish-shell/fish-shell
@@ -576,7 +578,7 @@ busted tests/
 [clippy]: https://github.com/rust-lang/rust-clippy
 [hledger]: https://hledger.org/
 [systemd-analyze]: https://man.archlinux.org/man/systemd-analyze.1
-[awk]: https://www.gnu.org/software/gawk/
+[gawk]: https://www.gnu.org/software/gawk/
 [yq]: https://mikefarah.gitbook.io/yq
 [svlint]: https://github.com/dalance/svlint
 [slang]: https://github.com/MikePopoloski/slang
