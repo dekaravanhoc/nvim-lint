@@ -8,23 +8,30 @@ local severities = {
 }
 
 return {
-  cmd = 'mypy',
+  cmd = 'dmypy',
   stdin = false,
-  stream = "both",
   ignore_exitcode = true,
   args = {
+    'run',
+    '--timeout',
+    '50000',
+    '--',
     '--show-column-numbers',
     '--show-error-end',
     '--hide-error-context',
     '--no-color-output',
     '--no-error-summary',
-    '--no-pretty'
+    '--no-pretty',
+    '--python-executable',
+    function()
+      return vim.fn.exepath 'python3' or vim.fn.exepath 'python'
+    end
   },
   parser = require('lint.parser').from_pattern(
     pattern,
     groups,
     severities,
-    { ['source'] = 'mypy' },
+    { ['source'] = 'dmypy' },
     { end_col_offset = 0 }
   ),
 }

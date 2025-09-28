@@ -44,13 +44,22 @@ require('lint').linters_by_ft = {
 }
 ```
 
-Then setup a autocmd to trigger linting. For example:
+To get the `filetype` of a buffer you can run `:= vim.bo.filetype`.
+The `filetype` can also be a compound `filetype`. For example, if you have a buffer
+with a `filetype` like `yaml.ghaction`, you can use either `ghaction`, `yaml` or
+the full `yaml.ghaction` as key in the `linters_by_ft` table and the linter
+will be picked up in that buffer. This is useful for linters like
+[actionlint][actionlint] in combination with `vim.filetype` patterns like
+`[".*/.github/workflows/.*%.yml"] = "yaml.ghaction",`
+
+
+Then setup a `autocmd` to trigger linting. For example:
 
 ```vimL
 au BufWritePost * lua require('lint').try_lint()
 ```
 
-or with Lua autocmds:
+or with Lua auto commands:
 
 ```lua
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
@@ -68,7 +77,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 ```
 
 Some linters require a file to be saved to disk, others support linting `stdin`
-input. For such linters you could also define a more aggressive autocmd, for
+input. For such linters you could also define a more aggressive `autocmd`, for
 example on the `InsertLeave` or `TextChanged` events.
 
 
@@ -108,6 +117,7 @@ Other dedicated linters that are built-in are:
 | [clippy][clippy]                       | `clippy`               |
 | [clj-kondo][24]                        | `clj-kondo`            |
 | [cmakelint][cmakelint]                 | `cmakelint`            |
+| [cmake-lint][cmake_format]             | `cmake_lint`           |
 | [codespell][18]                        | `codespell`            |
 | [commitlint][commitlint]               | `commitlint`           |
 | [cppcheck][22]                         | `cppcheck`             |
@@ -119,6 +129,7 @@ Other dedicated linters that are built-in are:
 | [dash][dash]                           | `dash`                 |
 | [deadnix][deadnix]                     | `deadnix`              |
 | [deno][deno]                           | `deno`                 |
+| [dmypy][dmypy]                         | `dmypy`                |
 | [DirectX Shader Compiler][dxc]         | `dxc`                  |
 | [djlint][djlint]                       | `djlint`               |
 | [dotenv-linter][dotenv-linter]         | `dotenv_linter`        |
@@ -128,9 +139,12 @@ Other dedicated linters that are built-in are:
 | [eslint_d][37]                         | `eslint_d`             |
 | [eugene][eugene]                       | `eugene`               |
 | [fennel][fennel]                       | `fennel`               |
+| [fieldalignment][fieldalignment]       | `fieldalignment`       |
 | [fish][fish]                           | `fish`                 |
 | [Flake8][13]                           | `flake8`               |
 | [flawfinder][35]                       | `flawfinder`           |
+| [fortitude][fortitude]                 | `fortitude`            |
+| [fsharplint][fsharplint]               | `fsharplint`           |
 | [gawk][gawk]                           | `gawk`                 |
 | [gdlint (gdtoolkit)][gdlint]           | `gdlint`               |
 | [GHDL][ghdl]                           | `ghdl`                 |
@@ -146,11 +160,14 @@ Other dedicated linters that are built-in are:
 | [janet][janet]                         | `janet`                |
 | [joker][joker]                         | `joker`                |
 | [jshint][jshint]                       | `jshint`               |
+| [json5][json5]                         | `json5`                |
 | [jsonlint][jsonlint]                   | `jsonlint`             |
+| [json.tool][json.py]                   | `json_tool`             |
 | [ksh][ksh]                             | `ksh`                  |
 | [ktlint][ktlint]                       | `ktlint`               |
 | [lacheck][lacheck]                     | `lacheck`              |
 | [Languagetool][5]                      | `languagetool`         |
+| [lslint][lslint]                       | `lslint`               |
 | [luac][luac]                           | `luac`                 |
 | [luacheck][19]                         | `luacheck`             |
 | [markdownlint][26]                     | `markdownlint`         |
@@ -163,6 +180,7 @@ Other dedicated linters that are built-in are:
 | [npm-groovy-lint][npm-groovy-lint]     | `npm-groovy-lint`      |
 | [oelint-adv][oelint-adv]               | `oelint-adv`           |
 | [opa_check][opa_check]                 | `opa_check`            |
+| [tofu][tofu]                           | `tofu`                 |
 | [oxlint][oxlint]                       | `oxlint`               |
 | [perlcritic][perlcritic]               | `perlcritic`           |
 | [perlimports][perlimports]             | `perlimports`          |
@@ -171,6 +189,7 @@ Other dedicated linters that are built-in are:
 | [phpmd][phpmd]                         | `phpmd`                |
 | [php][php]                             | `php`                  |
 | [phpstan][phpstan]                     | `phpstan`              |
+| [pmd][pmd]                             | `pmd`                  |
 | [ponyc][ponyc]                         | `pony`                 |
 | [prisma-lint][prisma-lint]             | `prisma-lint`          |
 | [proselint][proselint]                 | `proselint`            |
@@ -182,10 +201,12 @@ Other dedicated linters that are built-in are:
 | [Pylint][15]                           | `pylint`               |
 | [pyproject-flake8][pflake8]            | `pflake8`              |
 | [quick-lint-js][quick-lint-js]         | `quick-lint-js`        |
+| [redocly][redocly]                     | `redolcy`              |
 | [regal][regal]                         | `regal`                |
 | [Revive][14]                           | `revive`               |
 | [rflint][rflint]                       | `rflint`               |
 | [robocop][robocop]                     | `robocop`              |
+| [rpmlint][rpmlint]                     | `rpmlint`              |
 | [RPM][rpm]                             | `rpmspec`              |
 | [rstcheck][rstcheck]                   | `rstcheck`             |
 | [rstlint][rstlint]                     | `rstlint`              |
@@ -202,6 +223,7 @@ Other dedicated linters that are built-in are:
 | [Spectral][spectral]                   | `spectral`             |
 | [sphinx-lint][sphinx-lint]             | `sphinx-lint`          |
 | [sqlfluff][sqlfluff]                   | `sqlfluff`             |
+| [sqruff][sqruff]                       | `sqruff`               |
 | [standardjs][standardjs]               | `standardjs`           |
 | [StandardRB][27]                       | `standardrb`           |
 | [statix check][33]                     | `statix`               |
@@ -214,6 +236,8 @@ Other dedicated linters that are built-in are:
 | [tfsec][tfsec]                         | `tfsec`                |
 | [tlint][tlint]                         | `tlint`                |
 | [trivy][trivy]                         | `trivy`                |
+| [ts-standard][ts-standard]             | `ts-standard`          |
+| [twig-cs-fixer][twig-cs-fixer]         | `twig-cs-fixer`        |
 | [typos][typos]                         | `typos`                |
 | [Vala][vala-lint]                      | `vala_lint`            |
 | [Vale][8]                              | `vale`                 |
@@ -225,6 +249,8 @@ Other dedicated linters that are built-in are:
 | [write-good][write-good]               | `write_good`           |
 | [yamllint][yamllint]                   | `yamllint`             |
 | [yq][yq]                               | `yq`                   |
+| [zizmor][zizmor]                       | `zizmor`               |
+| [zlint][zlint]                         | `zlint`                |
 | [zsh][zsh]                             | `zsh`                  |
 
 ## Custom Linters
@@ -272,8 +298,20 @@ Note that this completely overrides the environment, it does not add new
 environment variables. The one exception is that the `PATH` variable will be
 preserved if it is not explicitly set.
 
-You can generate a parse function from a Lua pattern or from an `errorformat`
-using the function in the `lint.parser` module:
+You can generate a parse function from a Lua pattern, from an `errorformat`
+or for [SARIF][sarif] using the functions in the `lint.parser` module:
+
+
+### for_sarif
+
+```lua
+parser = require("lint.parser").for_sarif()
+```
+
+The function takes an optional argument:
+
+- `skeleton`: Default values for the diagnostics
+
 
 ### from_errorformat
 
@@ -372,6 +410,18 @@ phpcs.args = {
 }
 ```
 
+Some linters are defined as function for lazy evaluation of some properties.
+In this case, you need to wrap them like this:
+
+```lua
+local original = require("lint").linters.terraform_validate
+require("lint").linters.terraform_validate = function()
+  local linter = original()
+  linter.cmd = "my_custom"
+  return linter
+end
+```
+
 You can also post-process the diagnostics produced by a linter by wrapping it.
 For example, to change the severity of all diagnostics created by `cspell`:
 
@@ -434,6 +484,16 @@ Luarocks][neovim-luarocks] for installation instructions.
 busted tests/
 ```
 
+
+### Docs
+
+API docs is generated using [vimcats]:
+
+```vimcats
+vimcats -t -f lua/lint.lua lua/lint/parser.lua > doc/lint.txt
+```
+
+
 [1]: https://github.com/dense-analysis/ale
 [3]: https://github.com/junegunn/vim-plug
 [4]: https://github.com/wbthomason/packer.nvim
@@ -477,9 +537,11 @@ busted tests/
 [pydocstyle]: https://www.pydocstyle.org/en/stable/
 [prisma-lint]: https://github.com/loop-payments/prisma-lint
 [checkpatch]: https://docs.kernel.org/dev-tools/checkpatch.html
-[checkstyle]: https://checkstyle.sourceforge.io/
+[checkstyle]: https://checkstyle.org/
 [jshint]: https://jshint.com/
+[json5]: https://json5.org/
 [jsonlint]: https://github.com/zaach/jsonlint
+[json.py]: https://docs.python.org/3/library/json.html#module-json.tool
 [rflint]: https://github.com/boakley/robotframework-lint
 [robocop]: https://github.com/MarketSquare/robotframework-robocop
 [vsg]: https://github.com/jeremiah-c-leary/vhdl-style-guide
@@ -489,12 +551,13 @@ busted tests/
 [proselint]: https://github.com/amperser/proselint
 [protolint]: https://github.com/yoheimuta/protolint
 [cmakelint]: https://github.com/cmake-lint/cmake-lint
+[cmake_format]: https://github.com/cheshirekow/cmake_format
 [rstcheck]: https://github.com/myint/rstcheck
 [rstlint]: https://github.com/twolfson/restructuredtext-lint
 [ksh]: https://github.com/ksh93/ksh
 [ktlint]: https://github.com/pinterest/ktlint
 [php]: https://www.php.net/
-[phpcs]: https://github.com/squizlabs/PHP_CodeSniffer
+[phpcs]: https://github.com/PHPCSStandards/PHP_CodeSniffer
 [phpinsights]: https://github.com/nunomaduro/phpinsights
 [phpmd]: https://phpmd.org/
 [phpstan]: https://phpstan.org/
@@ -523,6 +586,7 @@ busted tests/
 [cue]: https://github.com/cue-lang/cue
 [curlylint]: https://www.curlylint.org/
 [sqlfluff]: https://github.com/sqlfluff/sqlfluff
+[sqruff]: https://github.com/quarylabs/sqruff
 [verilator]: https://verilator.org/guide/latest/
 [actionlint]: https://github.com/rhysd/actionlint
 [buf_lint]: https://github.com/bufbuild/buf
@@ -531,14 +595,16 @@ busted tests/
 [tlint]: https://github.com/tighten/tlint
 [trivy]: https://github.com/aquasecurity/trivy
 [djlint]: https://djlint.com/
-[buildifier]: https://github.com/bazelbuild/buildtools/tree/master/buildifier
+[buildifier]: https://github.com/bazelbuild/buildtools/tree/main/buildifier
 [solhint]: https://protofire.github.io/solhint/
 [perlimports]: https://github.com/perl-ide/App-perlimports
 [perlcritic]: https://github.com/Perl-Critic/Perl-Critic
 [ponyc]: https://github.com/ponylang/ponyc
 [gdlint]: https://github.com/Scony/godot-gdscript-toolkit
+[rpmlint]: https://github.com/rpm-software-management/rpmlint
 [rpm]: https://rpm.org
 [ec]: https://github.com/editorconfig-checker/editorconfig-checker
+[dmypy]: https://mypy.readthedocs.io/en/stable/mypy_daemon.html
 [deno]: https://github.com/denoland/deno
 [standardjs]: https://standardjs.com/
 [biomejs]: https://github.com/biomejs/biome
@@ -582,3 +648,16 @@ busted tests/
 [yq]: https://mikefarah.gitbook.io/yq
 [svlint]: https://github.com/dalance/svlint
 [slang]: https://github.com/MikePopoloski/slang
+[zizmor]: https://github.com/woodruffw/zizmor
+[ts-standard]: https://github.com/standard/ts-standard
+[twig-cs-fixer]: https://github.com/VincentLanglet/Twig-CS-Fixer
+[fortitude]: https://github.com/PlasmaFAIR/fortitude
+[redocly]: https://redocly.com/docs/cli/commands/lint
+[sarif]: https://sarifweb.azurewebsites.net/
+[pmd]: https://pmd.github.io/
+[tofu]: https://opentofu.org/
+[vimcats]: https://github.com/mrcjkb/vimcats
+[lslint]: https://github.com/Makopo/lslint/
+[fsharplint]: https://github.com/fsprojects/FSharpLint
+[fieldalignment]: https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/fieldalignment
+[zlint]: https://donisaac.github.io/zlint/
